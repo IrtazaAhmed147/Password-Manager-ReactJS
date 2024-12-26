@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+
+
+
+
 const Manager = () => {
 
     const passwordRef = useRef()
@@ -13,7 +18,6 @@ const Manager = () => {
         if (passwords) {
             setPassArr(JSON.parse(passwords))
         }
-        console.log(passwords)
     }, [])
 
     const handleShowPass = () => {
@@ -31,7 +35,6 @@ const Manager = () => {
 
     const copyText = (text) => {
         navigator.clipboard.writeText(text)
-        console.log('chala')
         toast.success('Copied to clipboard!', {
             position: "top-right",
             autoClose: 5000,
@@ -45,12 +48,42 @@ const Manager = () => {
     }
 
     const savePassword = () => {
-        console.log(form)
-        setPassArr([...passArr, form])
-        localStorage.setItem('passwords', JSON.stringify([...passArr, form]))
-        console.log(passArr)
-        console.log([...passArr, form])
+        setPassArr([...passArr, {...form, id: uuidv4()}])
+        localStorage.setItem('passwords', JSON.stringify([...passArr, {...form, id: uuidv4()}]))
+        toast.success('Password saved!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
 
+    }
+
+    const deletePassword = (id)=> {
+  
+
+         setPassArr(passArr.filter(item=> item.id !== id))
+         
+         localStorage.setItem('passwords', JSON.stringify(passArr.filter(item=> item.id !== id)))
+         toast.success('Password Deleted!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+    }
+
+    const editPassword = (id)=> {
+     setForm(passArr.filter(item=> item.id === id)[0])
+     setPassArr(passArr.filter(item=> item.id !== id))
     }
 
     const handleChange = (e) => {
@@ -128,7 +161,7 @@ const Manager = () => {
                                 return <tr key={index}>
                                     <td className='py-2 border border-white text-center bg-green-100'>
                                         <div className='flex items-center justify-center items-center'>
-                                            <a href={item.site} target='_blank'>{item.site}</a>
+                                            <a href={item.site} rel="noreferrer" target='_blank'>{item.site}</a>
                                             <div className='lordiconcopy size-7 cursor-pointer' onClick={() => copyText(item.site)} >
                                                 <lord-icon
                                                     style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
@@ -165,14 +198,14 @@ const Manager = () => {
                                     </td>
                                     <td className='justify-center py-2 border border-white text-center bg-green-100'>
 
-                                        <span className='cursor-pointer mx-1' >
+                                        <span className='cursor-pointer mx-1' onClick={()=> editPassword(item.id)} >
                                             <lord-icon
-                                                src="https://cdn.lordicon.com/tobsqthh.json"
+                                                src="https://cdn.lordicon.com/fikcyfpp.json"
                                                 trigger="hover"
                                                 style={{ "width": "25px", "height": "25px" }}>
                                             </lord-icon>
                                         </span>
-                                        <span className='cursor-pointer mx-1'>
+                                        <span className='cursor-pointer mx-1' onClick={()=> deletePassword(item.id)}>
                                             <lord-icon
                                                 src="https://cdn.lordicon.com/skkahier.json"
                                                 trigger="hover"
