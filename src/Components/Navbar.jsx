@@ -3,7 +3,7 @@ import React from 'react'
 
 const Navbar = () => {
     return (
-        <div className='text-white bg-slate-800 flex p-3 justify-center h-1/6'>
+        <nav className='text-white bg-slate-800 flex p-3 justify-center '>
             <div className='flex justify-between w-4/5'>
 
                 <h1 className='font-bold text-xl'>&lt;Pass<span className='text-green-500'>OP/&gt;</span> </h1>
@@ -12,7 +12,7 @@ const Navbar = () => {
                     <li>About</li>
                 </ul>
             </div>
-        </div>
+        </nav>
     )
 }
 

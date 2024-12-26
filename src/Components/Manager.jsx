@@ -3,21 +3,26 @@ import { IoEye } from 'react-icons/io5'
 
 const Manager = () => {
     return (
-        <div className='w-4/5 flex flex-col gap-4 '>
+        <>
+        <div class="absolute top-0 z-[-2] h-full w-full bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(67,232,7,0.3),rgba(0,255,36,0.1))]"></div>
+
+            
+        
+        <div className='w-4/5 flex flex-col gap-4 p-3 md:mycontainer min-h-[81.5vh] res-wid'>
             <div>
 
                 <h1 className='font-bold text-xl text-center'>&lt;Pass<span className='text-green-500'>OP/&gt;</span> </h1>
                 <p className='text-center'>Your own Password Manager</p>
             </div>
-            <div className='flex flex-col gap-7 items-center'>
+            <div className='flex flex-col gap-4 items-center'>
 
-                <input className='border-2 w-full rounded-2xl border-green-500 p-1 px-6 outline-none' type='url' placeholder='Enter website URL' />
+                <input className='border-2 w-full rounded-2xl border-green-500 p-1 px-6 outline-none' type='url' placeholder='Enter website URL' required/>
                 <div className='flex justify-between w-full'>
 
-                    <input className='border-2 w-3/4 rounded-2xl border-green-500 p-1 px-6 outline-none' type="text" placeholder='Enter Username' />
+                    <input className='border-2 w-3/4 rounded-2xl border-green-500 p-1 px-6 outline-none' type="text" placeholder='Enter Username' required/>
 
                     <div className='w-1/5 bg-white  flex justify-between items-center border-2 rounded-2xl border-green-500 p-1 px-2 gap-2'>
-                        <input className='w-4/5 outline-none rounded-md' type="password" placeholder='Password' />
+                        <input className='w-4/5 outline-none rounded-md' type="password" placeholder='Password' required/>
                         <IoEye size='20px' />
                     </div>
                 </div>
@@ -105,6 +110,7 @@ const Manager = () => {
             </div>
 
         </div>
+                                                </>
     )
 }
 
