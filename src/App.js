@@ -10,7 +10,7 @@ function App() {
 
 
       <Navbar />
-      <div className='flex justify-center relative '>
+      <div className='flex justify-center relative ' style={{minHeight: '82%'}}>
         <Manager />
       </div>
       <Footer />

@@ -48,9 +48,14 @@ const Manager = () => {
     }
 
     const savePassword = () => {
-        setPassArr([...passArr, {...form, id: uuidv4()}])
-        localStorage.setItem('passwords', JSON.stringify([...passArr, {...form, id: uuidv4()}]))
-        toast.success('Password saved!', {
+
+        if(form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
+
+            setPassArr([...passArr, {...form, id: uuidv4()}])
+
+            localStorage.setItem('passwords', JSON.stringify([...passArr, {...form, id: uuidv4()}]))
+            setForm({site: '', username: '', password: ''})
+            toast.success('Password saved!', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -59,7 +64,19 @@ const Manager = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            });
+        });
+    } else {
+        toast.warn('Error: Password not saved!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
 
     }
 
@@ -69,6 +86,7 @@ const Manager = () => {
          setPassArr(passArr.filter(item=> item.id !== id))
          
          localStorage.setItem('passwords', JSON.stringify(passArr.filter(item=> item.id !== id)))
+         
          toast.success('Password Deleted!', {
             position: "top-right",
             autoClose: 5000,
@@ -110,7 +128,7 @@ const Manager = () => {
 
 
 
-            <div className='w-4/5 flex flex-col gap-4 p-3 md:mycontainer min-h-[81.5vh] res-wid'>
+            <div className='w-4/5 flex flex-col gap-4 p-3 md:mycontainer  res-wid' >
                 <div>
 
                     <h1 className='font-bold text-xl text-center'>&lt;Pass<span className='text-green-500'>OP/&gt;</span> </h1>
@@ -118,21 +136,21 @@ const Manager = () => {
                 </div>
                 <div className='flex flex-col gap-4 items-center'>
 
-                    <input value={form.site} name='site' onChange={handleChange} className='border-2 w-full rounded-2xl border-green-500 p-1 px-6 outline-none' type='url' placeholder='Enter website URL' required />
+                    <input value={form.site} name='site' onChange={handleChange} className='border-2 w-full rounded-2xl border-green-500 p-1 px-6 outline-none text-sm' type='url' placeholder='Enter website URL' required />
                     <div className='flex justify-between w-full'>
 
-                        <input value={form.username} name='username' onChange={handleChange} className='border-2 w-3/4 rounded-2xl border-green-500 p-1 px-6 outline-none' type="text" placeholder='Enter Username' required />
+                        <input value={form.username} name='username' onChange={handleChange} className='border-2 w-2/3 md:w-3/4  rounded-2xl border-green-500 p-1 px-6 outline-none text-sm' type="text" placeholder='Enter Username' required />
 
-                        <div className='w-1/5 bg-white  flex justify-between items-center border-2 rounded-2xl border-green-500 p-1 px-2 gap-2'>
-                            <input value={form.password} name='password' onChange={handleChange} ref={passwordRef} className='w-4/5 outline-none rounded-md' type="password" placeholder='Password' required />
+                        <div className='w-1/4 md:w-1/5 bg-white  flex justify-between items-center border-2 rounded-2xl border-green-500 p-1 px-2 gap-2'>
+                            <input value={form.password} name='password' onChange={handleChange} ref={passwordRef} className='w-4/5 outline-none rounded-md text-sm' type="password" placeholder='Password' required />
+
                             <span onClick={handleShowPass}>
-
                                 <img ref={ref} className='w-5 cursor-pointer' src="icons/eye.png" alt="eye" />
                             </span>
                         </div>
                     </div>
 
-                    <button onClick={savePassword} type='submit' className='border-2 border-green-700 bg-green-400 w-1/6 flex items-center justify-center rounded-3xl py-2 gap-1' >
+                    <button onClick={savePassword} type='submit' className='border-2 border-green-700 bg-green-400 flex items-center justify-center rounded-3xl py-2 gap-1 px-3' >
                         <lord-icon
                             src="https://cdn.lordicon.com/jgnvfzqg.json"
                             trigger="hover"
@@ -142,7 +160,7 @@ const Manager = () => {
 
                 </div>
 
-                <div>
+                <div className='overflow-scroll overflow-y-hidden overflow-x-auto'>
                     <h1 className='font-bold text-2xl py-4'>Your Passwords</h1>
 
                     {passArr.length === 0 && <h1>No Passwords to show</h1>}
@@ -159,8 +177,8 @@ const Manager = () => {
                         <tbody>
                             {passArr.map((item, index) => {
                                 return <tr key={index}>
-                                    <td className='py-2 border border-white text-center bg-green-100'>
-                                        <div className='flex items-center justify-center items-center'>
+                                    <td className='py-2 border border-white text-center bg-green-100 px-2'>
+                                        <div className='flex items-center justify-center items-center gap-1'>
                                             <a href={item.site} rel="noreferrer" target='_blank'>{item.site}</a>
                                             <div className='lordiconcopy size-7 cursor-pointer' onClick={() => copyText(item.site)} >
                                                 <lord-icon
@@ -172,8 +190,8 @@ const Manager = () => {
                                         </div>
 
                                     </td>
-                                    <td className='py-2 border border-white text-center bg-green-100'>
-                                        <div className='flex items-center justify-center items-center'>
+                                    <td className='py-2 border border-white text-center bg-green-100 px-2'>
+                                        <div className='flex items-center justify-center items-center gap-1'>
                                             <span>{item.username}</span>
                                             <div className='lordiconcopy size-7 cursor-pointer' onClick={() => copyText(item.username)}>
                                                 <lord-icon
@@ -184,8 +202,8 @@ const Manager = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className='py-2 border border-white text-center bg-green-100'>
-                                        <div className='flex items-center justify-center items-center'>
+                                    <td className='py-2 border border-white text-center bg-green-100 px-2'>
+                                        <div className='flex items-center justify-center items-center gap-1'>
                                             <span>{item.password}</span>
                                             <div className='lordiconcopy size-7 cursor-pointer' onClick={() => copyText(item.password)} >
                                                 <lord-icon
