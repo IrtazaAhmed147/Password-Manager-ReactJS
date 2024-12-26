@@ -1,5 +1,6 @@
 import './index.css'
 import Navbar from './Components/Navbar';
+import Manager from './Components/Manager';
 
 function App() {
   return (
@@ -8,6 +9,9 @@ function App() {
 
 
       <Navbar />
+      <div className='flex justify-center py-6'>
+        <Manager />
+      </div>
 
 
     </>
